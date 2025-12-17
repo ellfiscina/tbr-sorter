@@ -5,57 +5,72 @@
 //  Created by Ellen Fiscina on 2025-12-17.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-        } detail: {
-            Text("Select an item")
-        }
-    }
+        ZStack {
+            Color.linen
+                .ignoresSafeArea()
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
+            VStack(spacing: 0) {
+                ZStack {
+                    HStack(spacing: 16) {
+                        ZStack {
+                            Image(systemName: "book")
+                                .foregroundColor(.white)
+                        }
+                        .frame(width: 40, height: 40)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .fill(Color.white.opacity(0.2))
+                        )
+                        .shadow(color: .black.opacity(0.15), radius: 10, y: 6)
 
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+                        Spacer()
+
+                        Text("TBR Sorter")
+                            .font(.headline)
+                            .foregroundColor(.white)
+
+                        Spacer()
+
+                        Button {
+                            // setIsModalOpen(true)
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(.white)
+                                .frame(width: 40, height: 40)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                        .fill(Color.accent)
+                                )
+                        }
+                        .buttonStyle(.plain)
+                        .shadow(color: .black.opacity(0.15), radius: 10, y: 6)
+                    }
+                    .padding()
+                }
+                .frame(height: 90)
+                .background(Color.primaryAction)
+                .clipped()
+                
+                Spacer()
             }
+            .clipShape(
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .stroke(Color.accent, lineWidth: 4)
+            )
+            .padding()
         }
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }
