@@ -16,21 +16,27 @@ struct ContentView: View {
             Color.background
                 .ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                HeaderView(
-                    onAddTapped: { showingSheet = true }
+            ScrollView {
+                VStack(spacing: 24) {
+                    HeaderView(
+                        onAddTapped: { showingSheet = true }
+                    )
+                    
+                    UpNextView()
+                        .padding(.horizontal, 20)
+                    
+                    Spacer()
+                }
+                .background(Color.white)
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
                 )
-
-                Spacer()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .stroke(Color.accent, lineWidth: 4)
+                )
+                .padding()
             }
-            .clipShape(
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 24, style: .continuous)
-                    .stroke(Color.accent, lineWidth: 4)
-            )
-            .padding()
         }
         .sheet(isPresented: $showingSheet) {
             AddBookView()
@@ -39,5 +45,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView().modelContainer(mockContainerForBookList())
 }

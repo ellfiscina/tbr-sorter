@@ -12,6 +12,8 @@ import SwiftUI
 struct AddBookView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    
+    @Query(sort: \Book.order) private var books: [Book]
 
     @State private var title: String = ""
     @State private var author: String = ""
@@ -74,7 +76,8 @@ struct AddBookView: View {
         let item = Book(
             title: title,
             author: author,
-            coverUrl: cover.isEmpty ? nil : cover
+            coverUrl: cover.isEmpty ? nil : cover,
+            order: books.count
         )
         modelContext.insert(item)
         dismiss()

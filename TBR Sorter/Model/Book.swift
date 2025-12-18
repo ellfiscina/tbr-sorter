@@ -13,10 +13,12 @@ final class Book {
     var title: String
     var author: String
     var coverUrl: String?
+    var order: Int
     
-    init(title: String, author: String, coverUrl: String? = nil) {
+    init(title: String, author: String, coverUrl: String? = nil, order: Int) {
         self.title = title
         self.author = author
         self.coverUrl = coverUrl
+        self.order = order
     }
 }
