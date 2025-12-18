@@ -24,7 +24,7 @@ struct UpNextView: View {
             Text("Up Next")
                 .padding(.horizontal, 25)
                 .padding(.vertical, 12)
-                .foregroundColor(.white)
+                .foregroundStyle(.white)
                 .fontWeight(.semibold)
                 .background(Color.accent)
                 .clipShape(RoundedRectangle(cornerRadius: 25))
@@ -63,8 +63,15 @@ struct UpNextView: View {
                         .disabled(books.count <= 1)
                     }
                 } else {
-                    Text("No books yet")
-                        .foregroundColor(.secondary)
+                    VStack(spacing: 16) {
+                        Text("No books yet")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundStyle( Color.secondaryAction)
+                        Text("Start building your reading list")
+                            .foregroundStyle(.secondary)
+                    }
+                    
                 }
             }
             .padding(24)
@@ -110,7 +117,7 @@ struct CustomButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline)
-            .foregroundColor(.white)
+            .foregroundStyle(.white)
             .padding(.horizontal, 24)
             .padding(.vertical, 12)
             .background(backgroundColor)

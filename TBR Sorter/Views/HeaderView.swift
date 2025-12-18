@@ -14,7 +14,7 @@ struct HeaderView: View {
         HStack(spacing: 16) {
             ZStack {
                 Image(systemName: "book")
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
             }
             .frame(width: 40, height: 40)
             .background(
@@ -27,14 +27,14 @@ struct HeaderView: View {
 
             Text("TBR Sorter")
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundStyle(.white)
 
             Spacer()
 
             Button(action: onAddTapped) {
                 Image(systemName: "plus")
                     .font(.system(size: 18, weight: .semibold))
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
                     .frame(width: 40, height: 40)
                     .background(
                         RoundedRectangle(cornerRadius: 16, style: .continuous)

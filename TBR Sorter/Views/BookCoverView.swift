@@ -45,7 +45,7 @@ struct BookCoverView: View {
 
     private var placeholder: some View {
         Image(systemName: "book")
-            .foregroundColor(.white).opacity(0.6)
+            .foregroundStyle(.white).opacity(0.6)
     }
 }
 

@@ -25,6 +25,8 @@ struct ContentView: View {
                     UpNextView()
                         .padding(.horizontal, 20)
                     
+                    TBRView()
+                    
                     Spacer()
                 }
                 .background(Color.white)

@@ -46,7 +46,7 @@ struct AddBookView: View {
                     if !isCoverValid {
                         Text("Enter a valid URL")
                             .font(.caption)
-                            .foregroundColor(.red)
+                            .foregroundStyle(.red)
                     }
                 }
 
