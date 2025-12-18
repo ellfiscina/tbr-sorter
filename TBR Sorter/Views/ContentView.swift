@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         ZStack {
-            Color.linen
+            Color.background
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {

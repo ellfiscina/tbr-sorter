@@ -9,14 +9,14 @@ import Foundation
 import SwiftData
 
 @Model
-final class Item {
+final class Book {
     var title: String
     var author: String
-    var image: String?
+    var coverUrl: String?
     
-    init(title: String, author: String, image: String? = nil) {
+    init(title: String, author: String, coverUrl: String? = nil) {
         self.title = title
         self.author = author
-        self.image = image
+        self.coverUrl = coverUrl
     }
 }
