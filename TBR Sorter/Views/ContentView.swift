@@ -9,54 +9,18 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showingSheet = false
+
     var body: some View {
         ZStack {
             Color.background
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                ZStack {
-                    HStack(spacing: 16) {
-                        ZStack {
-                            Image(systemName: "book")
-                                .foregroundColor(.white)
-                        }
-                        .frame(width: 40, height: 40)
-                        .background(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .fill(Color.white.opacity(0.2))
-                        )
-                        .shadow(color: .black.opacity(0.15), radius: 10, y: 6)
+                HeaderView(
+                    onAddTapped: { showingSheet = true }
+                )
 
-                        Spacer()
-
-                        Text("TBR Sorter")
-                            .font(.headline)
-                            .foregroundColor(.white)
-
-                        Spacer()
-
-                        Button {
-                            // setIsModalOpen(true)
-                        } label: {
-                            Image(systemName: "plus")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(.white)
-                                .frame(width: 40, height: 40)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                        .fill(Color.accent)
-                                )
-                        }
-                        .buttonStyle(.plain)
-                        .shadow(color: .black.opacity(0.15), radius: 10, y: 6)
-                    }
-                    .padding()
-                }
-                .frame(height: 90)
-                .background(Color.primaryAction)
-                .clipped()
-                
                 Spacer()
             }
             .clipShape(
@@ -67,6 +31,9 @@ struct ContentView: View {
                     .stroke(Color.accent, lineWidth: 4)
             )
             .padding()
+        }
+        .sheet(isPresented: $showingSheet) {
+            AddBookView()
         }
     }
 }
