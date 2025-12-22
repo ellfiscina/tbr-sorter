@@ -20,7 +20,7 @@ export default async function Home() {
           {books.length > 0 ? (
             <UpNext
               nextBook={nextBook}
-              isRandomDisabled={books.length <= 1}
+              books={books}
             />
           ) : (
             <CallToAction />

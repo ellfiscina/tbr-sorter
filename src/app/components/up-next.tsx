@@ -4,18 +4,51 @@ import Image from "next/image";
 import { BookOpen, CheckCircle2, Shuffle } from "lucide-react";
 
 import { useNotification } from "@/contexts/notification-context";
-import { removeBook } from "@/lib/actions";
+import { removeBook, reorderBooks } from "@/lib/actions";
 import { Book } from "@/lib/types";
 
 interface UpNextProps {
+  books: Book[];
   nextBook: Book;
-  isRandomDisabled: boolean;
 }
 
-const UpNext = ({ nextBook,isRandomDisabled } : UpNextProps) => {
+const UpNext = ({ books, nextBook } : UpNextProps) => {
   const { showNotification } = useNotification();
 
-  const handleRandomPick = () => {}
+  const handleRandomPick = () => {
+    if (books.length <= 1) return;
+
+    const candidates = books.filter(book => book.id !== nextBook.id);
+    const randomBook =
+      candidates[Math.floor(Math.random() * candidates.length)];
+
+    const updates: typeof books = [];
+    updates.push({
+      ...randomBook,
+      order: 0,
+    });
+
+    updates.push({
+      ...nextBook,
+      order: 1,
+    });
+
+    for (const book of books) {
+      if (
+        book.id !== randomBook.id &&
+        book.id !== nextBook.id &&
+        book.order < randomBook.order
+      ) {
+        updates.push({
+          ...book,
+          order: book.order + 1,
+        });
+      }
+    }
+
+    reorderBooks(updates);
+    showNotification(`Randomly picked: ${randomBook.title} by ${randomBook.author}`);
+  }
 
   const handleDelete = (id: string) => {
     removeBook(id);
@@ -69,10 +102,10 @@ const UpNext = ({ nextBook,isRandomDisabled } : UpNextProps) => {
               </button>
               <button
                 onClick={handleRandomPick}
-                disabled={isRandomDisabled}
+                disabled={books.length <= 1}
                 className="flex-1 px-6 py-3 bg-secondary text-white rounded-2xl hover:bg-secondary/90 active:scale-95 disabled:bg-gray-300 disabled:text-gray-500 transition-all shadow-lg flex items-center justify-center gap-2 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2"
                 aria-label="Pick a random book from your queue to read next"
-                aria-disabled={isRandomDisabled}
+                aria-disabled={books.length <= 1}
               >
                 <Shuffle className="w-5 h-5" aria-hidden="true" />
                 Random Pick

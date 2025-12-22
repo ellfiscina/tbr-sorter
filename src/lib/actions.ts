@@ -2,7 +2,7 @@
 
 import { refresh } from 'next/cache';
 
-import { createBook, deleteBook } from './data';
+import { createBook, deleteBook, updateBooksOrder } from './data';
 
 export async function addBook(
   prevState: { success: boolean | null },
@@ -28,5 +28,10 @@ export async function addBook(
 
 export async function removeBook(id: string) {
   await deleteBook(id);
+  refresh()
+}
+
+export async function reorderBooks(books: { id: string; order: number }[]) {
+  await updateBooksOrder(books);
   refresh()
 }
