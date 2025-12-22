@@ -8,6 +8,8 @@ import { NotificationType } from '@/lib/types';
 const Notification = () => {
   const { notifications, removeNotification } = useNotification()
 
+  if (notifications.length === 0) return null
+
   const getIcon = (type: NotificationType) => {
     const className = "w-5 h-5 text-white";
 
@@ -24,7 +26,11 @@ const Notification = () => {
     }
   }
 
-  if (notifications.length === 0) return null
+  const bgClassMap: Record<string, string> = {
+    success: 'bg-success',
+    error: 'bg-error',
+    warning: 'bg-warning',
+  };
 
   return (
     <div className="fixed top-4 right-4 z-50 flex flex-col gap-3 max-w-md">
@@ -32,7 +38,7 @@ const Notification = () => {
         <div
           key={notification.id}
           className={`
-            bg-${notification.type}
+            ${bgClassMap[notification.type]}
             rounded-button shadow-strong
             p-4 pr-10
             border-2

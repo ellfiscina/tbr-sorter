@@ -1,32 +1,14 @@
+import { fetchBooks } from "@/lib/data";
+
 import AddBookModal from "./components/add-book-modal";
 import BookItem from "./components/book-item";
 import CallToAction from "./components/call-to-action";
 import Header from "./components/header";
+import Notification from "./components/notification";
 import UpNext from "./components/up-next";
 
-export default function Home() {
-  const books = [
-    {
-      id: '1',
-      title: 'The Midnight Library',
-      author: 'Matt Haig',
-      order: 0,
-      coverUrl: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=400&fit=crop'
-    },
-    {
-      id: '2',
-      title: 'Project Hail Mary',
-      author: 'Andy Weir',
-      order: 1,
-      coverUrl: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=300&h=400&fit=crop'
-    },
-    {
-      id: '3',
-      title: 'Atomic Habits',
-      author: 'James Clear',
-      order: 2,
-    },
-  ];
+export default async function Home() {
+  const books = await fetchBooks();
   const nextBook = {
     id: '0', title: 'The Midnight Library', author: 'Matt Haig', order: 0,
   }
@@ -73,6 +55,7 @@ export default function Home() {
         </div>
       </div>
       <AddBookModal />
+      <Notification />
     </div>
   );
 }
