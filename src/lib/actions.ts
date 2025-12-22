@@ -2,7 +2,7 @@
 
 import { refresh } from 'next/cache';
 
-import { createBook } from './data';
+import { createBook, deleteBook } from './data';
 
 export async function addBook(
   prevState: { success: boolean | null },
@@ -24,4 +24,9 @@ export async function addBook(
 
   refresh();
   return { success: true };
+}
+
+export async function removeBook(id: string) {
+  await deleteBook(id);
+  refresh()
 }

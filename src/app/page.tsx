@@ -9,9 +9,7 @@ import UpNext from "./components/up-next";
 
 export default async function Home() {
   const books = await fetchBooks();
-  const nextBook = {
-    id: '0', title: 'The Midnight Library', author: 'Matt Haig', order: 0,
-  }
+  const nextBook = await books[0];
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-cream font-sans p-4">

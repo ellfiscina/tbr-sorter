@@ -6,9 +6,9 @@ import { useNotification } from '@/contexts/notification-context';
 import { NotificationType } from '@/lib/types';
 
 const Notification = () => {
-  const { notifications, removeNotification } = useNotification()
+  const { notification, clearNotification } = useNotification()
 
-  if (notifications.length === 0) return null
+  if (!notification) return null
 
   const getIcon = (type: NotificationType) => {
     const className = "w-5 h-5 text-white";
@@ -26,40 +26,36 @@ const Notification = () => {
     }
   }
 
-  const bgClassMap: Record<string, string> = {
+  const colors = {
     success: 'bg-success',
     error: 'bg-error',
     warning: 'bg-warning',
+    info: 'bg-info'
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50 flex flex-col gap-3 max-w-md">
-      {notifications.map(notification => (
+    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none">
+      <div className="pointer-events-auto">
         <div
-          key={notification.id}
-          className={`
-            ${bgClassMap[notification.type]}
-            rounded-button shadow-strong
-            p-4 pr-10
-            border-2
-            animate-slide-in
-            relative
-          `}
+          className={`${colors[notification.type]} text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 min-w-[280px] max-w-md animate-slide-down`}
+          role="alert"
+          aria-live="polite"
         >
-          <div className="flex items-start gap-3">
-            <span className="text-xl font-bold">{getIcon(notification.type)}</span>
-            <p className="flex-1 font-medium">{notification.message}</p>
+          <div className="flex-shrink-0">
+            {getIcon(notification.type)}
           </div>
+          <p className="flex-1 text-sm">{notification.message}</p>
           <button
-            onClick={() => removeNotification(notification.id)}
-            className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/10 transition-colors"
+            onClick={() => clearNotification()}
+            className="flex-shrink-0 w-6 h-6 rounded-full hover:bg-white/20 active:bg-white/30 transition-colors flex items-center justify-center"
             aria-label="Close notification"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
-      ))}
+      </div>
     </div>
+
   );
 }
 

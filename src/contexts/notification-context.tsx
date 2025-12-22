@@ -1,76 +1,104 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  ReactNode,
+  useRef,
+} from 'react';
 
 import { NotificationType } from '@/lib/types';
 
 export interface Notification {
-  id: string
-  message: string
-  type: NotificationType
-  duration?: number
+  id: string;
+  message: string;
+  type: NotificationType;
+  duration?: number;
 }
 
 interface NotificationContextType {
-  notifications: Notification[]
-  showNotification: (message: string, type?: NotificationType, duration?: number) => void
-  removeNotification: (id: string) => void
-  clearNotifications: () => void
+  notification: Notification | null;
+  showNotification: (
+    message: string,
+    type?: NotificationType,
+    duration?: number
+  ) => void;
+  clearNotification: () => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined)
+const NotificationContext =
+  createContext<NotificationContextType | undefined>(undefined);
 
 export const useNotification = () => {
-  const context = useContext(NotificationContext)
+  const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error('useNotification must be used within NotificationProvider')
+    throw new Error('useNotification must be used within NotificationProvider');
   }
-  return context
-}
+  return context;
+};
 
 interface NotificationProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
-const NotificationProvider = ({ children } : NotificationProviderProps) => {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+const NotificationProvider = ({ children }: NotificationProviderProps) => {
+  const [notification, setNotification] = useState<Notification | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const clearNotification = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setNotification(null);
+  }, []);
 
   const showNotification = useCallback(
-    (message: string, type: NotificationType = 'info', duration: number = 5000) => {
-      const id = `notification-${Date.now()}-${Math.random()}`
-      const notification: Notification = { id, message, type, duration }
+    (
+      message: string,
+      type: NotificationType = 'info',
+      duration: number = 3000
+    ) => {
 
-      setNotifications(prev => [...prev, notification])
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+
+      const id = `notification-${Date.now()}-${Math.random()}`;
+
+      const newNotification: Notification = {
+        id,
+        message,
+        type,
+        duration,
+      };
+
+      setNotification(newNotification);
 
       if (duration > 0) {
-        setTimeout(() => {
-          removeNotification(id)
-        }, duration)
+        timeoutRef.current = setTimeout(() => {
+          setNotification(null);
+          timeoutRef.current = null;
+        }, duration);
       }
     },
     []
   );
 
-  const removeNotification = useCallback((id: string) => {
-    setNotifications(prev => prev.filter(notification => notification.id !== id))
-  }, []);
-
-  const clearNotifications = useCallback(() => {
-    setNotifications([])
-  }, []);
-
   return (
     <NotificationContext.Provider
       value={{
-        notifications,
+        notification,
         showNotification,
-        removeNotification,
-        clearNotifications,
+        clearNotification,
       }}
     >
       {children}
     </NotificationContext.Provider>
-  )
-}
+  );
+};
 
 export default NotificationProvider;

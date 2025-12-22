@@ -3,6 +3,8 @@ import Image from "next/image";
 
 import { BookOpen, CheckCircle2, Shuffle } from "lucide-react";
 
+import { useNotification } from "@/contexts/notification-context";
+import { removeBook } from "@/lib/actions";
 import { Book } from "@/lib/types";
 
 interface UpNextProps {
@@ -11,8 +13,14 @@ interface UpNextProps {
 }
 
 const UpNext = ({ nextBook,isRandomDisabled } : UpNextProps) => {
+  const { showNotification } = useNotification();
+
   const handleRandomPick = () => {}
-  const handleStartReading = (id: string) => {}
+
+  const handleDelete = (id: string) => {
+    removeBook(id);
+    showNotification("This is your next read")
+  }
 
   return (
     <div className="p-6 bg-gradient-to-br from-accent/5 to-blush/5">
@@ -52,12 +60,12 @@ const UpNext = ({ nextBook,isRandomDisabled } : UpNextProps) => {
 
             <div className="flex flex-col sm:flex-row gap-3">
               <button
-                onClick={() => handleStartReading(nextBook.id)}
+                onClick={() => handleDelete(nextBook.id)}
                 className="flex-1 px-6 py-3 bg-primary text-white rounded-2xl hover:bg-primary/90 active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                 aria-label={`Start reading ${nextBook.title}`}
               >
                 <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
-                Start Reading
+                Next book
               </button>
               <button
                 onClick={handleRandomPick}

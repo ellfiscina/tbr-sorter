@@ -7,6 +7,8 @@ import Image from "next/image";
 import { BookOpen, GripVertical, Trash2 } from "lucide-react";
 import { useDrag, useDrop } from "react-dnd";
 
+import { useNotification } from "@/contexts/notification-context";
+import { removeBook } from "@/lib/actions";
 import { Book } from "@/lib/types";
 
 import type { Identifier } from 'dnd-core';
@@ -26,9 +28,14 @@ const BookItem = ({ book, index, totalBooks } : BookItemProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLDivElement>(null);
 
+  const { showNotification } = useNotification();
+
   const moveBook = (dragIndex: number, hoverIndex: number) => {}
 
-  const handleDeleteBook = (id: string) => {}
+  const handleDeleteBook = (id: string) => {
+    removeBook(id);
+    showNotification('Book removed', 'success');
+  }
 
   const [{ handlerId }, drop] = useDrop<
   DragItem,
