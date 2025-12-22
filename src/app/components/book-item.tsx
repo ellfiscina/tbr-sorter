@@ -17,6 +17,7 @@ interface BookItemProps {
   book: Book;
   index: number;
   totalBooks: number;
+  moveBook: (dragIndex: number, hoverIndex: number) => void;
 }
 
 interface DragItem {
@@ -24,13 +25,11 @@ interface DragItem {
   type: 'book';
 }
 
-const BookItem = ({ book, index, totalBooks } : BookItemProps) => {
+const BookItem = ({ book, index, totalBooks, moveBook } : BookItemProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLDivElement>(null);
 
   const { showNotification } = useNotification();
-
-  const moveBook = (dragIndex: number, hoverIndex: number) => {}
 
   const handleDeleteBook = (id: string) => {
     removeBook(id);
@@ -101,15 +100,16 @@ const BookItem = ({ book, index, totalBooks } : BookItemProps) => {
     <div
       ref={ref}
       data-handler-id={handlerId}
+      style={{ touchAction: isDragging ? 'none' : 'pan-y' }}
       className={`bg-white rounded-2xl shadow-md hover:shadow-lg mb-3 flex items-center p-4 transition-all focus-within:ring-2 focus-within:ring-primary ${
-        isDragging ? 'opacity-50 scale-95' : 'opacity-100 scale-100'
+        isDragging ? 'scale-95 opacity-80 shadow-xl' : 'opacity-100 scale-100'
       }`}
       role="listitem"
       aria-label={`${book.title} by ${book.author}, position ${index + 1} of ${totalBooks}`}
     >
       <div
         ref={dragRef}
-        className="mr-3 cursor-grab active:cursor-grabbing touch-none"
+        className="mr-3 p-3 md:p-0 cursor-grab active:cursor-grabbing touch-none"
         aria-label="Drag to reorder"
         role="img"
       >

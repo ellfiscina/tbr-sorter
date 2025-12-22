@@ -1,7 +1,7 @@
 import { fetchBooks } from "@/lib/data";
 
 import AddBookModal from "./components/add-book-modal";
-import BookItem from "./components/book-item";
+import BookList from "./components/book-list";
 import CallToAction from "./components/call-to-action";
 import Header from "./components/header";
 import Notification from "./components/notification";
@@ -38,16 +38,7 @@ export default async function Home() {
                   </span>
                 </h3>
               </div>
-              <div className="space-y-3" role="list" aria-label="Reading queue">
-                {books.slice(1).map((book, index) => (
-                  <BookItem
-                    key={book.id}
-                    book={book}
-                    index={index + 1}
-                    totalBooks={books.length}
-                  />
-                ))}
-              </div>
+              <BookList initialBooks={books.slice(1)} />
             </div>
           )}
         </div>
