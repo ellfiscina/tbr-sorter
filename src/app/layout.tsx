@@ -1,6 +1,13 @@
-import type { Metadata } from "next";
+
 import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
+
+import { DndWrapper } from "@/contexts/dnd-wrapper";
+import ModalProvider from "@/contexts/modal-context";
+import NotificationProvider from "@/contexts/notification-context";
+
+import type { Metadata } from "next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +34,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <DndWrapper>
+          <NotificationProvider>
+            <ModalProvider>
+              {children}
+            </ModalProvider>
+          </NotificationProvider>
+        </DndWrapper>
       </body>
     </html>
   );
