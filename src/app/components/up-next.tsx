@@ -98,7 +98,7 @@ const UpNext = ({ books, nextBook } : UpNextProps) => {
                 aria-label={`Start reading ${nextBook.title}`}
               >
                 <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
-                Next book
+                Pick book
               </button>
               <button
                 onClick={handleRandomPick}
