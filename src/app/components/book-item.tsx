@@ -7,6 +7,7 @@ import { useDrag, useDrop } from "react-dnd";
 
 import { useNotification } from "@/contexts/notification-context";
 import { removeBook } from "@/lib/actions";
+import { colors } from "@/lib/theme";
 import { Book } from "@/lib/types";
 
 import BookCover from "./book-cover";
@@ -113,14 +114,18 @@ const BookItem = ({ book, index, totalBooks, moveBook } : BookItemProps) => {
         aria-label="Drag to reorder"
         role="img"
       >
-        <GripVertical className="w-5 h-5 text-blush" aria-hidden="true" />
+        <GripVertical
+          className="w-5 h-5 text-blush"
+          aria-hidden="true"
+          style={{ color: index > 0 ? colors.blush : colors.coral.main }}
+        />
       </div>
 
       <div
         className="w-12 h-16 rounded-lg mr-3 flex items-center justify-center flex-shrink-0 overflow-hidden shadow-sm bg-primary"
         aria-hidden="true"
       >
-        <BookCover cover={book.cover} width={48} height={64} />
+        <BookCover cover={book.cover} width={48} height={64} iconSize={6} />
       </div>
 
       <div className="flex-1 min-w-0">

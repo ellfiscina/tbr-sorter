@@ -6,10 +6,10 @@ interface BookCoverProps {
   width: number;
   height: number;
   cover?: string;
+  iconSize: number;
 }
 
-const BookCover = ({ width, height, cover }: BookCoverProps) => {
-  console.log(cover)
+const BookCover = ({ width, height, cover, iconSize }: BookCoverProps) => {
   return cover ? (
     <Image
       className="w-full h-full object-cover"
@@ -20,7 +20,7 @@ const BookCover = ({ width, height, cover }: BookCoverProps) => {
       height={height}
     />
   ) : (
-    <BookOpen className="w-16 h-16 text-white opacity-60" aria-hidden="true" />
+    <BookOpen className={`w-${iconSize} h-${iconSize} text-white opacity-60`} aria-hidden="true" />
   )
 }
 

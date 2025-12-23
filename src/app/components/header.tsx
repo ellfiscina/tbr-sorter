@@ -18,7 +18,7 @@ const Header = ({ email }: { email: string }) => {
             <BookOpen className="w-6 h-6 text-white" aria-hidden="true" />
           </div>
           <div>
-            <h1 className="text-white text-xl">My Reading List</h1>
+            <h1 className="text-white text-xl font-bold">My Reading List</h1>
             <p className="text-white/80 text-xs flex items-center gap-1">
               {email}
             </p>

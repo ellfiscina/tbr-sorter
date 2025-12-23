@@ -13,7 +13,7 @@ interface UpNextProps {
   nextBook: Book;
 }
 
-const UpNext = ({ books, nextBook } : UpNextProps) => {
+const UpNext = ({ books, nextBook }: UpNextProps) => {
   const { showNotification } = useNotification();
 
   const handleRandomPick = () => {
@@ -58,23 +58,20 @@ const UpNext = ({ books, nextBook } : UpNextProps) => {
 
   return (
     <div className="p-6 bg-gradient-to-br from-accent/5 to-blush/5">
-      <div className="text-center mb-4">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent rounded-full shadow-lg">
-          <span className="text-white text-sm">Up Next</span>
-        </div>
-      </div>
-
       <div
         className="bg-white rounded-3xl p-6 shadow-xl border-4 border-primary mb-6"
         role="region"
         aria-label="Next book to read"
       >
+        <div className="text-center mb-4">
+          <h1 className="text-accent text-xl font-bold">Up Next</h1>
+        </div>
         <div className="flex flex-col sm:flex-row gap-6 items-center">
           <div
             className="bg-accent w-32 h-44 rounded-2xl flex items-center justify-center flex-shrink-0 overflow-hidden shadow-xl"
             aria-hidden="true"
           >
-            <BookCover cover={nextBook.cover} width={128} height={176} />
+            <BookCover cover={nextBook.cover} width={128} height={176} iconSize={16} />
           </div>
 
           <div className="flex-1 text-center sm:text-left">
