@@ -7,3 +7,7 @@ export interface Book {
     order: number;
     coverUrl?: string;
 }
+
+export interface UserId {
+    id: string;
+}

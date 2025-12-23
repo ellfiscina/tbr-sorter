@@ -1,14 +1,20 @@
+import { Account, Profile } from 'next-auth';
 import postgres from 'postgres';
 
-import { Book } from './types';
+import { auth } from './auth';
+import { Book, UserId } from './types';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 export async function fetchBooks() {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error('Unauthorized');
+
   try {
     return await sql<Book[]>`
       SELECT id, title, author, "order", cover_url AS "coverUrl"
       FROM book
+      WHERE user_id = ${session.user.id}
       ORDER BY book.order`;
   } catch (error) {
     console.error('Database Error:', error);
@@ -21,10 +27,14 @@ export async function createBook(
   author: string,
   coverUrl?: string
 ) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error('Unauthorized');
+
   try {
     const result = await sql<Book[]>`
-      INSERT INTO book (title, author, cover_url, "order")
+      INSERT INTO book (user_id, title, author, cover_url, "order")
       VALUES (
+        ${session.user.id},
         ${title},
         ${author},
         ${coverUrl || null},
@@ -40,6 +50,9 @@ export async function createBook(
 }
 
 export async function deleteBook(id: string) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error('Unauthorized');
+
   try {
     await sql`
       DELETE FROM book
@@ -51,6 +64,9 @@ export async function deleteBook(id: string) {
 }
 
 export async function updateBookOrder(bookId: string, newOrder: number) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error('Unauthorized');
+
   try {
     await sql`
       UPDATE book
@@ -63,6 +79,9 @@ export async function updateBookOrder(bookId: string, newOrder: number) {
 }
 
 export async function updateBooksOrder(books: { id: string; order: number }[]) {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error('Unauthorized');
+
   try {
     await sql.begin(async (sql) => {
       for (const book of books) {
@@ -76,4 +95,28 @@ export async function updateBooksOrder(books: { id: string; order: number }[]) {
     console.error('Database Error:', error);
     throw new Error('Failed to update books order.');
   }
+}
+
+export async function upsertUser(account: Account, profile: Profile) {
+  const users = await sql<UserId[]>`
+    INSERT INTO users (
+      provider,
+      provider_account_id,
+      email,
+      name
+    )
+    VALUES (
+      ${account.provider},
+      ${account.providerAccountId},
+      ${profile.email!},
+      ${profile.name ?? null}
+    )
+    ON CONFLICT (provider, provider_account_id)
+    DO UPDATE SET
+      email = EXCLUDED.email,
+      name = EXCLUDED.name
+    RETURNING id
+  `;
+
+  return users[0].id;
 }

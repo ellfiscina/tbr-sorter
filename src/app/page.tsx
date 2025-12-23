@@ -1,13 +1,22 @@
+import { getServerSession } from "next-auth";
+
 import { fetchBooks } from "@/lib/data";
 
 import AddBookModal from "./components/add-book-modal";
 import BookList from "./components/book-list";
 import CallToAction from "./components/call-to-action";
 import Header from "./components/header";
+import { Login } from "./components/login";
 import Notification from "./components/notification";
 import UpNext from "./components/up-next";
 
 export default async function Home() {
+  const session = await getServerSession();
+
+  if (!session) {
+    return <Login />;
+  }
+
   const books = await fetchBooks();
   const nextBook = await books[0];
 
