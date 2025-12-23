@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 
 import { fetchBooks } from "@/lib/data";
+import { getBookCover } from "@/lib/getBookCover";
 
 import AddBookModal from "./components/add-book-modal";
 import BookList from "./components/book-list";
@@ -18,7 +19,12 @@ export default async function Home() {
   }
 
   const books = await fetchBooks();
-  const nextBook = await books[0];
+  const booksWithCovers = await Promise.all(
+    books.map(async (book) => ({
+      ...book,
+      cover: await getBookCover(book.isbn),
+    }))
+  );
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-cream font-sans p-4">
@@ -28,8 +34,8 @@ export default async function Home() {
 
           {books.length > 0 ? (
             <UpNext
-              nextBook={nextBook}
-              books={books}
+              nextBook={booksWithCovers[0]}
+              books={booksWithCovers}
             />
           ) : (
             <CallToAction />
@@ -47,7 +53,7 @@ export default async function Home() {
                   </span>
                 </h3>
               </div>
-              <BookList initialBooks={books.slice(1)} />
+              <BookList initialBooks={booksWithCovers.slice(1)} />
             </div>
           )}
         </div>

@@ -2,14 +2,14 @@
 
 import { useRef } from "react";
 
-import Image from "next/image";
-
-import { BookOpen, GripVertical, Trash2 } from "lucide-react";
+import { GripVertical, Trash2 } from "lucide-react";
 import { useDrag, useDrop } from "react-dnd";
 
 import { useNotification } from "@/contexts/notification-context";
 import { removeBook } from "@/lib/actions";
 import { Book } from "@/lib/types";
+
+import BookCover from "./book-cover";
 
 import type { Identifier } from 'dnd-core';
 
@@ -120,17 +120,7 @@ const BookItem = ({ book, index, totalBooks, moveBook } : BookItemProps) => {
         className="w-12 h-16 rounded-lg mr-3 flex items-center justify-center flex-shrink-0 overflow-hidden shadow-sm bg-primary"
         aria-hidden="true"
       >
-        {book.coverUrl ? (
-          <Image
-            src={book.coverUrl}
-            alt="Book cover"
-            className="w-full h-full object-cover"
-            width={48}
-            height={64}
-          />
-        ) : (
-          <BookOpen className="w-6 h-6 text-white opacity-60" aria-hidden="true" />
-        )}
+        <BookCover cover={book.cover} width={48} height={64} />
       </div>
 
       <div className="flex-1 min-w-0">

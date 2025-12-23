@@ -5,7 +5,8 @@ export interface Book {
     title: string;
     author: string;
     order: number;
-    coverUrl?: string;
+    isbn?: string;
+    cover?: string;
 }
 
 export interface UserId {

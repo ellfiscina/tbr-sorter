@@ -10,14 +10,14 @@ export async function addBook(
 ) {
   const title = formData.get('title')?.toString();
   const author = formData.get('author')?.toString();
-  const coverUrl = formData.get('coverUrl')?.toString();
+  const isbn = formData.get('isbn')?.toString();
 
   if (!title || !author) {
     return { success: false };
   }
 
   try {
-    await createBook(title, author, coverUrl);
+    await createBook(title, author, isbn);
   } catch {
     return { success: false };
   }

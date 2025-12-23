@@ -1,11 +1,12 @@
 'use client'
-import Image from "next/image";
 
-import { BookOpen, CheckCircle2, Shuffle } from "lucide-react";
+import { CheckCircle2, Shuffle } from "lucide-react";
 
 import { useNotification } from "@/contexts/notification-context";
 import { removeBook, reorderBooks } from "@/lib/actions";
 import { Book } from "@/lib/types";
+
+import BookCover from "./book-cover";
 
 interface UpNextProps {
   books: Book[];
@@ -47,12 +48,12 @@ const UpNext = ({ books, nextBook } : UpNextProps) => {
     }
 
     reorderBooks(updates);
-    showNotification(`Randomly picked: ${randomBook.title} by ${randomBook.author}`);
+    showNotification(`Randomly picked: ${randomBook.title} by ${randomBook.author}`, "success");
   }
 
   const handleDelete = (id: string) => {
     removeBook(id);
-    showNotification("This is your next read")
+    showNotification("This is your next read", "success");
   }
 
   return (
@@ -73,18 +74,7 @@ const UpNext = ({ books, nextBook } : UpNextProps) => {
             className="bg-accent w-32 h-44 rounded-2xl flex items-center justify-center flex-shrink-0 overflow-hidden shadow-xl"
             aria-hidden="true"
           >
-            {nextBook.coverUrl ? (
-              <Image
-                className="w-full h-full object-cover"
-                src={nextBook.coverUrl}
-                alt="Book cover"
-                priority
-                width={128}
-                height={176}
-              />
-            ) : (
-              <BookOpen className="w-16 h-16 text-white opacity-60" aria-hidden="true" />
-            )}
+            <BookCover cover={nextBook.cover} width={128} height={176} />
           </div>
 
           <div className="flex-1 text-center sm:text-left">

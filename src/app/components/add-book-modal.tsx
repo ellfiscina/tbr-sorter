@@ -131,18 +131,17 @@ const AddBookModal = () => {
           </div>
 
           <div className="mb-6">
-            <label htmlFor="coverUrl" className="block text-sm text-gray-700 mb-2">
-              Cover Image URL <span className="text-gray-500">(optional)</span>
+            <label htmlFor="isbn" className="block text-sm text-gray-700 mb-2">
+              ISBN to find image <span className="text-gray-500">(optional)</span>
             </label>
             <input
-              id="coverUrl"
-              name="coverUrl"
-              type="url"
+              id="isbn"
+              name="isbn"
+              type="text"
               className="w-full px-4 py-3 bg-white rounded-2xl border-3 border-primary focus:outline-none focus:ring-4 focus:ring-accent/30 focus:border-accent transition-all shadow-sm"
-              placeholder="https://example.com/cover.jpg"
+              placeholder="9780439554930"
             />
           </div>
-
           <div className="flex gap-3">
             <button
               type="button"

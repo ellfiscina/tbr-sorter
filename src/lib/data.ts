@@ -12,7 +12,7 @@ export async function fetchBooks() {
 
   try {
     return await sql<Book[]>`
-      SELECT id, title, author, "order", cover_url AS "coverUrl"
+      SELECT *
       FROM book
       WHERE user_id = ${session.user.id}
       ORDER BY book.order`;
@@ -25,19 +25,19 @@ export async function fetchBooks() {
 export async function createBook(
   title: string,
   author: string,
-  coverUrl?: string
+  isbn?: string
 ) {
   const session = await auth();
   if (!session?.user?.id) throw new Error('Unauthorized');
 
   try {
     const result = await sql<Book[]>`
-      INSERT INTO book (user_id, title, author, cover_url, "order")
+      INSERT INTO book (user_id, title, author, isbn, "order")
       VALUES (
         ${session.user.id},
         ${title},
         ${author},
-        ${coverUrl || null},
+        ${isbn || null},
         (SELECT COALESCE(MAX("order"), 0) + 1 FROM book)
       )
       RETURNING *`;
