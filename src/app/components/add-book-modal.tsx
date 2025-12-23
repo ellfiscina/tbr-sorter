@@ -18,7 +18,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="flex-1 px-5 py-3 bg-primary text-white rounded-2xl hover:bg-primary/90 active:scale-95 disabled:bg-gray-300 disabled:text-gray-500 transition-all shadow-md disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-primary"
+      className="cursor-pointer flex-1 px-5 py-3 bg-primary text-white rounded-2xl hover:bg-primary/90 active:scale-95 disabled:bg-gray-300 disabled:text-gray-500 transition-all shadow-md disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-primary"
     >
       {pending ? 'Adding…' : 'Add Book'}
     </button>

@@ -4,7 +4,7 @@ import { BookOpen, Plus } from "lucide-react";
 
 import { useModal } from "@/contexts/modal-context";
 
-const Header = () => {
+const Header = ({ email }: { email: string }) => {
   const { openModal } = useModal();
 
   return (
@@ -19,11 +19,14 @@ const Header = () => {
           </div>
           <div>
             <h1 className="text-white text-xl">My Reading List</h1>
+            <p className="text-white/80 text-xs flex items-center gap-1">
+              {email}
+            </p>
           </div>
         </div>
         <button
           onClick={openModal}
-          className="w-10 h-10 bg-accent hover:bg-accent/90 active:scale-95 rounded-2xl flex items-center justify-center transition-all shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary"
+          className="cursor-pointer w-10 h-10 bg-accent hover:bg-accent/90 active:scale-95 rounded-2xl flex items-center justify-center transition-all shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary"
           aria-label="Add new book to reading list"
         >
           <Plus className="w-5 h-5 text-white" aria-hidden="true" />

@@ -18,7 +18,7 @@ const CallToAction = () => {
       </p>
       <button
         onClick={openModal}
-        className="px-6 py-3 bg-primary text-white rounded-2xl hover:bg-primary/90 active:scale-95 transition-all shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        className="cursor-pointer px-6 py-3 bg-primary text-white rounded-2xl hover:bg-primary/90 active:scale-95 transition-all shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
         aria-label="Add your first book to the reading list"
       >
         Add Your First Book

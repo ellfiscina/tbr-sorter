@@ -84,7 +84,7 @@ const UpNext = ({ books, nextBook } : UpNextProps) => {
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => handleDelete(nextBook.id)}
-                className="flex-1 px-6 py-3 bg-primary text-white rounded-2xl hover:bg-primary/90 active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                className="cursor-pointer flex-1 px-6 py-3 bg-primary text-white rounded-2xl hover:bg-primary/90 active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                 aria-label={`Start reading ${nextBook.title}`}
               >
                 <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
@@ -93,7 +93,7 @@ const UpNext = ({ books, nextBook } : UpNextProps) => {
               <button
                 onClick={handleRandomPick}
                 disabled={books.length <= 1}
-                className="flex-1 px-6 py-3 bg-secondary text-white rounded-2xl hover:bg-secondary/90 active:scale-95 disabled:bg-gray-300 disabled:text-gray-500 transition-all shadow-lg flex items-center justify-center gap-2 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2"
+                className="cursor-pointer flex-1 px-6 py-3 bg-secondary text-white rounded-2xl hover:bg-secondary/90 active:scale-95 disabled:bg-gray-300 disabled:text-gray-500 transition-all shadow-lg flex items-center justify-center gap-2 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2"
                 aria-label="Pick a random book from your queue to read next"
                 aria-disabled={books.length <= 1}
               >
